@@ -1,0 +1,89 @@
+{
+ "actions": [],
+ "creation": "2026-10-09 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "participant_id",
+  "participant_name",
+  "email",
+  "department",
+  "attendance",
+  "score",
+  "result",
+  "certificate"
+ ],
+ "fields": [
+  {
+   "fieldname": "participant_id",
+   "fieldtype": "Data",
+   "label": "Participant ID",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "participant_name",
+   "fieldtype": "Data",
+   "label": "Participant Name",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Data",
+   "label": "Department"
+  },
+  {
+   "fieldname": "attendance",
+   "fieldtype": "Select",
+   "label": "Attendance",
+   "options": "Present\nAbsent",
+   "default": "Present",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "score",
+   "fieldtype": "Float",
+   "label": "Score (%)",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "result",
+   "fieldtype": "Select",
+   "label": "Result",
+   "options": "\nPass\nFail",
+   "read_only": 1,
+   "in_list_view": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "certificate",
+   "fieldtype": "Link",
+   "label": "Certificate",
+   "options": "Certification",
+   "read_only": 1,
+   "no_copy": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-10-09 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "FHC Training",
+ "name": "Training Participant",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0,
+ "istable": 1,
+ "editable_grid": 1
+}

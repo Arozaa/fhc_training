@@ -1,0 +1,159 @@
+{
+ "actions": [],
+ "creation": "2026-10-09 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "course_name",
+  "course_code",
+  "category",
+  "column_break_1",
+  "is_active",
+  "duration_hours",
+  "passing_score",
+  "validity_months",
+  "section_description",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "CRS-.####",
+   "default": "CRS-.####",
+   "reqd": 1,
+   "hidden": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "course_name",
+   "fieldtype": "Data",
+   "label": "Course Name",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1,
+   "in_global_search": 1
+  },
+  {
+   "fieldname": "course_code",
+   "fieldtype": "Data",
+   "label": "Course Code",
+   "unique": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Select",
+   "label": "Category",
+   "options": "\nTechnical\nManagement\nSafety\nCompliance\nSoft Skills\nOther",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Is Active",
+   "default": "1",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "duration_hours",
+   "fieldtype": "Float",
+   "label": "Duration (Hours)",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "passing_score",
+   "fieldtype": "Percent",
+   "label": "Passing Score (%)",
+   "reqd": 1,
+   "default": "60"
+  },
+  {
+   "fieldname": "validity_months",
+   "fieldtype": "Int",
+   "label": "Certificate Validity (Months)",
+   "default": "12",
+   "description": "0 means the certificate never expires"
+  },
+  {
+   "fieldname": "section_description",
+   "fieldtype": "Section Break",
+   "label": "Description"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-10-09 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "FHC Training",
+ "name": "Training Course",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  },
+  {
+   "role": "Training Manager",
+   "read": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  },
+  {
+   "role": "Training Officer",
+   "read": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1,
+   "write": 1,
+   "create": 1
+  },
+  {
+   "role": "Trainer",
+   "read": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "autoname": "naming_series:",
+ "title_field": "course_name",
+ "show_title_field_in_link": 1,
+ "search_fields": "course_name,course_code,category",
+ "allow_rename": 1
+}

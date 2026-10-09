@@ -1,0 +1,186 @@
+{
+ "actions": [],
+ "creation": "2026-10-09 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "participant_id",
+  "participant_name",
+  "email",
+  "column_break_1",
+  "course",
+  "course_name",
+  "training_session",
+  "section_dates",
+  "issue_date",
+  "expiry_date",
+  "column_break_2",
+  "score",
+  "status",
+  "revoked_reason"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "CERT-.YYYY.-.#####",
+   "default": "CERT-.YYYY.-.#####",
+   "reqd": 1,
+   "hidden": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "participant_id",
+   "fieldtype": "Data",
+   "label": "Participant ID",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "participant_name",
+   "fieldtype": "Data",
+   "label": "Participant Name",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "course",
+   "fieldtype": "Link",
+   "label": "Course",
+   "options": "Training Course",
+   "reqd": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "course_name",
+   "fieldtype": "Data",
+   "label": "Course Name",
+   "read_only": 1,
+   "fetch_from": "course.course_name",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "training_session",
+   "fieldtype": "Link",
+   "label": "Training Session",
+   "options": "Training Session",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_dates",
+   "fieldtype": "Section Break",
+   "label": "Validity"
+  },
+  {
+   "fieldname": "issue_date",
+   "fieldtype": "Date",
+   "label": "Issue Date",
+   "reqd": 1,
+   "default": "Today"
+  },
+  {
+   "fieldname": "expiry_date",
+   "fieldtype": "Date",
+   "label": "Expiry Date",
+   "in_list_view": 1,
+   "description": "Auto-calculated from the course validity if left empty"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "score",
+   "fieldtype": "Float",
+   "label": "Score (%)"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Active\nExpired\nRevoked",
+   "default": "Active",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "revoked_reason",
+   "fieldtype": "Small Text",
+   "label": "Revocation Reason",
+   "depends_on": "eval:doc.status=='Revoked'",
+   "mandatory_depends_on": "eval:doc.status=='Revoked'"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-10-09 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "FHC Training",
+ "name": "Certification",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  },
+  {
+   "role": "Training Manager",
+   "read": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  },
+  {
+   "role": "Training Officer",
+   "read": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1,
+   "write": 1,
+   "create": 1
+  },
+  {
+   "role": "Trainer",
+   "read": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "autoname": "naming_series:",
+ "search_fields": "participant_name,participant_id,course_name"
+}

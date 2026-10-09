@@ -1,0 +1,20 @@
+[
+ {
+  "doctype": "Role",
+  "name": "Training Manager",
+  "role_name": "Training Manager",
+  "desk_access": 1
+ },
+ {
+  "doctype": "Role",
+  "name": "Training Officer",
+  "role_name": "Training Officer",
+  "desk_access": 1
+ },
+ {
+  "doctype": "Role",
+  "name": "Trainer",
+  "role_name": "Trainer",
+  "desk_access": 1
+ }
+]

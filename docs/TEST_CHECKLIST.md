@@ -1,7 +1,7 @@
 # Functional & Automated Test Checklist and Results
 
 **Application:** FHC Training (`fhc_training`)  
-**Site:** `fhc.local` (Port 8000)  
+**Site:** `fhc.local` (Port 3000)  
 **Evaluation Environment:** Ubuntu 22.04.5 LTS (WSL2), Python 3.10.12, MariaDB 10.6.23, Frappe v15.122.0, ERPNext v15.122.0  
 **Execution Date:** 2026-10-11  
 **Overall Status:** **25 / 25 PASSED (100% Pass Rate)**  

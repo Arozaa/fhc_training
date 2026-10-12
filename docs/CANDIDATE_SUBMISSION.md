@@ -14,7 +14,7 @@
 | **Exam Duration** | One Week (7 Calendar Days) |
 | **Assigned Project** | Training and Certification Management System |
 | **Custom App Name** | `fhc_training` (Module: `FHC Training`) |
-| **Local Site Name** | `fhc.local` (Local port: 8000) |
+| **Local Site Name** | `fhc.local` (Local port: 3000) |
 | **Repository / Source Location** | `c:\Users\HP\Desktop\proj\fhc` & `/home/aroza/frappe-bench/apps/fhc_training` |
 | **Frappe & ERPNext Version** | Frappe v15.122.0, ERPNext v15.122.0 (version-15 branch) |
 | **Database Server** | MariaDB 10.6.23 |
@@ -25,7 +25,7 @@
 
 ## 2. Final Deliverables Checklist
 
-- [x] **Working local ERPNext/Frappe development environment:** Verified running on `http://127.0.0.1:8000` / `http://fhc.local:8000`.
+- [x] **Working local ERPNext/Frappe development environment:** Verified running on `http://127.0.0.1:3000` / `http://localhost:3000`.
 - [x] **Complete custom Frappe application source code:** Contains 5 DocTypes (including 1 Child Table), Client Script, Server-side validation, Script Report, and fixtures.
 - [x] **Git repository and meaningful commit history:** Multi-commit history documenting progressive development across the 7-day plan without bulk dumping.
 - [x] **README and setup documentation:** Fully detailed in [README.md](../README.md) with exact verified system versions, installation steps, and demo data loaders.

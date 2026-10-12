@@ -31,7 +31,7 @@ bench new-site fhc.local --admin-password <choose> --mariadb-root-password <root
 bench get-app erpnext --branch version-15
 bench --site fhc.local install-app erpnext
 bench use fhc.local
-bench start        # open http://fhc.local:8000 (add "127.0.0.1 fhc.local" to /etc/hosts if needed)
+bench start        # open http://localhost:3000 or http://fhc.local:3000
 ```
 Follow the official Frappe installation guide for details specific to your OS.
 

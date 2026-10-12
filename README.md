@@ -7,16 +7,17 @@ approving sessions through a workflow, and issuing/tracking certificates until t
 FHC needs one place to manage courses, trainers, scheduled sessions, who attended, who passed, and which
 certificates are about to expire. This app replaces spreadsheets with a controlled, role-based process.
 
-## 2. Environment (fill in your own versions)
-| Item | Version used |
-|---|---|
-| OS | Ubuntu 22.04 / WSL2 *(edit)* |
-| Python | 3.10+ *(edit)* |
-| Node.js / Yarn | 18 / 1.x *(edit)* |
-| MariaDB | 10.6 *(edit)* |
-| Redis | 6+ *(edit)* |
-| Frappe / ERPNext | version-15 |
-| Bench | `bench --version` *(edit)* |
+## 2. Environment (Verified System Specifications)
+| Item | Version used | Notes |
+|---|---|---|
+| OS | Ubuntu 22.04.5 LTS (WSL2) | Linux kernel 6.6.x on Windows |
+| Python | Python 3.10.12 | Standard Ubuntu 22.04 Frappe runtime |
+| Node.js / Yarn | Node.js v18.20.8 / Yarn 1.22.22 | Installed via NVM |
+| MariaDB | 10.6.23-MariaDB | Configured with utf8mb4 collation |
+| Redis | Redis 6.0.16 | Cache, Queue, and Socket.io brokers |
+| Frappe Framework | 15.122.0 (branch `version-15`) | Active production/dev release |
+| ERPNext | 15.122.0 (branch `version-15`) | Core ERP module suite |
+| Frappe Bench | 5.31.0 | CLI bench tool |
 
 ### Environment setup commands (Ubuntu / WSL2)
 ```bash

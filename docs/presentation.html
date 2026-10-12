@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FHC ERPNext Developer Practical Exam - Technical Presentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: radial-gradient(circle at 15% 20%, #111827 0%, #0a0f1d 100%);
+      --surface: rgba(255, 255, 255, 0.04);
+      --surface-border: rgba(255, 255, 255, 0.1);
+      --accent: #2563eb;
+      --accent-light: #60a5fa;
+      --accent-glow: rgba(37, 99, 235, 0.25);
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #0a0f1d;
+      background-image: var(--bg-gradient);
+      color: var(--text);
+      font-family: var(--font-main);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Header Bar */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 28px;
+      border-bottom: 1px solid var(--surface-border);
+      background: rgba(10, 15, 29, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-badge {
+      background: linear-gradient(135deg, #1d4ed8, #2563eb);
+      color: #fff;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #e5e7eb;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .pill-btn {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      color: var(--text);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .pill-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--accent-light);
+    }
+
+    .pill-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+
+    /* Slide Presentation Viewport */
+    main {
+      flex: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.96);
+      width: 92%;
+      max-width: 1200px;
+      height: 84vh;
+      max-height: 760px;
+      background: rgba(17, 24, 39, 0.85);
+      border: 1px solid var(--surface-border);
+      border-radius: 20px;
+      padding: 44px 52px;
+      display: none;
+      flex-direction: column;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 40px var(--accent-glow);
+      backdrop-filter: blur(16px);
+      opacity: 0;
+      transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      display: flex;
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    /* Typography & Layout inside Slides */
+    .slide-tag {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--accent-light);
+      margin-bottom: 8px;
+    }
+
+    .slide-title {
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1.2;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .slide-subtitle {
+      font-size: 16px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    .slide-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: 14px;
+      padding: 22px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .card:hover {
+      border-color: rgba(96, 165, 250, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .card h4 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card p, .card li {
+      font-size: 14px;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
+    ul.feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    ul.feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    ul.feature-list li::before {
+      content: "✔";
+      color: var(--accent-light);
+      font-weight: bold;
+    }
+
+    /* Tables */
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      background: var(--surface);
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--surface-border);
+    }
+
+    table.data-table th {
+      background: rgba(37, 99, 235, 0.15);
+      color: #93c5fd;
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--surface-border);
+    }
+
+    table.data-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: #e2e8f0;
+    }
+
+    table.data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Code Block */
+    pre.code-box {
+      background: #060913;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 16px 20px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: #e2e8f0;
+      overflow-x: auto;
+      line-height: 1.5;
+    }
+
+    .code-keyword { color: #f43f5e; font-weight: 600; }
+    .code-func { color: #38bdf8; }
+    .code-string { color: #34d399; }
+    .code-comment { color: #64748b; font-style: italic; }
+
+    /* Badges */
+    .badge {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+    .badge-green { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+    .badge-blue { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4); }
+    .badge-yellow { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .badge-purple { background: rgba(168, 85, 247, 0.2); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.4); }
+
+    /* Speaker Notes Drawer */
+    .speaker-notes-panel {
+      display: none;
+      background: #0f172a;
+      border-top: 2px solid var(--accent);
+      padding: 16px 28px;
+      font-size: 14px;
+      color: #93c5fd;
+      line-height: 1.5;
+      max-height: 140px;
+      overflow-y: auto;
+      z-index: 10;
+    }
+
+    .speaker-notes-panel.visible {
+      display: block;
+    }
+
+    .speaker-notes-label {
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent-light);
+      margin-bottom: 4px;
+    }
+
+    /* Bottom Control Bar */
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 28px;
+      background: rgba(10, 15, 29, 0.85);
+      border-top: 1px solid var(--surface-border);
+      backdrop-filter: blur(12px);
+      z-index: 10;
+    }
+
+    .progress-container {
+      flex: 1;
+      max-width: 320px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+      margin: 0 20px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #2563eb, #60a5fa);
+      width: 8.33%;
+      transition: width 0.3s ease;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .nav-btn {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      color: var(--text);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover:not(:disabled) {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .slide-counter {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      min-width: 60px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header>
+    <div class="brand">
+      <span class="brand-badge">FHC</span>
+      <span class="brand-title">ERPNext / Frappe Developer Practical Exam</span>
+    </div>
+    <div class="header-controls">
+      <button class="pill-btn" id="notesToggleBtn" onclick="toggleSpeakerNotes()">
+        💬 Speaker Notes [S]
+      </button>
+      <button class="pill-btn" id="fsBtn" onclick="toggleFullScreen()">
+        ⛶ Fullscreen [F]
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Presentation Slides Viewport -->
+  <main>
+
+    <!-- Slide 1: Title -->
+    <div class="slide active" data-notes="Good morning members of the FHC IT evaluation panel. Today, I am proud to present the Training and Certification Management System built natively as an installable custom Frappe app. Over the next 25 minutes, I will guide you through the architecture, business logic, workflow governance, and end-to-end live demonstration.">
+      <div class="slide-tag">Practical Exam Defense • Candidate Presentation</div>
+      <h1 class="slide-title">Training & Certification Management System</h1>
+      <p class="slide-subtitle">A robust, role-governed custom Frappe application built for Federal Housing Corporation (FHC)</p>
+      
+      <div class="slide-body">
+        <div class="grid-3" style="margin-top: 20px;">
+          <div class="card">
+            <h4>🏢 Organization</h4>
+            <p><strong>Federal Housing Corporation (FHC)</strong><br>IT / ERP Development Department</p>
+          </div>
+          <div class="card">
+            <h4>⚙️ Technology Stack</h4>
+            <p>Frappe Framework v15.122<br>ERPNext v15.122 • MariaDB 10.6<br>Redis 6 • Ubuntu 22.04 LTS (WSL2)</p>
+          </div>
+          <div class="card">
+            <h4>⏱️ Agenda (25 Mins)</h4>
+            <p>15 Min Technical Architecture<br>10 Min End-to-End Live Demo<br>Live Technical Modification</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: 10px; background: rgba(37, 99, 235, 0.08); border-color: rgba(96, 165, 250, 0.3);">
+          <h4>🎯 Project Mission</h4>
+          <p>Modernize corporate training governance at FHC by replacing decentralized spreadsheets with an automated, auditable, and workflow-driven ERP system that tracks courses, enforces trainer schedules, evaluates scores, and manages certificate expirations.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2: Problem Statement & Objectives -->
+    <div class="slide" data-notes="Let's examine the problem statement. Before this application, FHC faced four primary operational pain points: spreadsheet chaos, scheduling collisions where trainers were assigned to two courses at once, compliance risks when safety certifications expired unnoticed, and a total lack of role approval gates. Our app resolves each of these pain points directly.">
+      <div class="slide-tag">Strategic Context</div>
+      <h2 class="slide-title">Problem Statement & Objectives</h2>
+      <p class="slide-subtitle">Why FHC needs a dedicated Training & Certification Management solution</p>
+      
+      <div class="slide-body grid-2">
+        <div class="card">
+          <h4 style="color: #f87171;">⚠️ Existing Operational Pain Points</h4>
+          <ul class="feature-list" style="margin-top: 12px;">
+            <li><strong>Disparate Records:</strong> Employee training history, attendance, and scores fragmented across department spreadsheets.</li>
+            <li><strong>Trainer Double-Booking:</strong> Overlapping training sessions scheduled without calendar collision checks.</li>
+            <li><strong>Compliance & Safety Risk:</strong> Expired safety and engineering certifications go untracked, risking regulatory non-compliance.</li>
+            <li><strong>No Approval Hierarchy:</strong> Training budgets and sessions committed without formal managerial review.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h4 style="color: #34d399;">🎯 Core System Objectives</h4>
+          <ul class="feature-list" style="margin-top: 12px;">
+            <li><strong>Relational Master Data:</strong> Structured Courses, Instructors, Sessions, and Certificates with strict foreign keys.</li>
+            <li><strong>Enforced Workflow:</strong> Multi-state approval hierarchy (Draft → Pending Approval → Approved → Completed).</li>
+            <li><strong>Zero-Conflict Scheduling:</strong> Server-side collision detection preventing trainer over-scheduling.</li>
+            <li><strong>Automated Expiration:</strong> Daily cron task flipping past-due certificates paired with dynamic expiry reporting.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: DocType Architecture & Relationships -->
+    <div class="slide" data-notes="Here is our relational data model. We exceeded the minimum 4 DocType requirement by creating 5 DocTypes: 2 Masters (Training Course and Trainer), 1 Transaction with a Child Table (Training Session and Training Participant), and 1 generated Transaction (Certification). Notice the clean Link relationships and naming series.">
+      <div class="slide-tag">Data Architecture</div>
+      <h2 class="slide-title">DocType Structure & Relationships</h2>
+      <p class="slide-subtitle">Modular 5-DocType model designed for business scalability and integrity</p>
+      
+      <div class="slide-body">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>DocType</th>
+              <th>Classification</th>
+              <th>Naming Series</th>
+              <th>Key Fields & Relationships</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Training Course</strong></td>
+              <td><span class="badge badge-blue">Master</span></td>
+              <td><code>CRS-.####</code></td>
+              <td>Course Title, Category, Duration Hours, Passing Score (%), Validity (Months)</td>
+            </tr>
+            <tr>
+              <td><strong>Trainer</strong></td>
+              <td><span class="badge badge-blue">Master</span></td>
+              <td><code>TRN-.####</code></td>
+              <td>Trainer Name, Email, Phone, Status (Active/Inactive), Linked User</td>
+            </tr>
+            <tr>
+              <td><strong>Training Session</strong></td>
+              <td><span class="badge badge-purple">Transaction</span></td>
+              <td><code>TS-.YYYY.-.####</code></td>
+              <td>Links to Course & Trainer; Start/End Dates; Venue; Max Participants; Workflow State</td>
+            </tr>
+            <tr>
+              <td><strong>Training Participant</strong></td>
+              <td><span class="badge badge-yellow">Child Table</span></td>
+              <td><em>Row idx</em></td>
+              <td>Participant ID, Name, Department, Attendance, Score (0–100), Result (Pass/Fail), Cert Link</td>
+            </tr>
+            <tr>
+              <td><strong>Certification</strong></td>
+              <td><span class="badge badge-green">Transaction</span></td>
+              <td><code>CERT-.YYYY.-.#####</code></td>
+              <td>Links to Session & Course; Issue Date; Calculated Expiry Date; Status (Active/Expired/Revoked)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="card" style="margin-top: 10px;">
+          <h4>🔗 Relational Integrity Highlights</h4>
+          <p>Every participant row in a session links forward to their issued <code>Certification</code>, and every <code>Certification</code> points back to the course and session. Duplicate certificate creation for the same session and attendee is blocked by database constraints.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 4: Workflow Governance -->
+    <div class="slide" data-notes="Slide 4 covers our business workflow. The lifecycle has 6 states. A Training Officer creates a session and adds participants, then submits for approval. A Training Manager can either approve it or reject it back for revision. Once approved, the trainer enters scores. The session cannot be completed until the end date has arrived. Finally, certificates can be issued.">
+      <div class="slide-tag">Process Governance</div>
+      <h2 class="slide-title">Business Process & Multi-State Workflow</h2>
+      <p class="slide-subtitle">Workflow Name: <code>Training Session Approval</code> with clear state boundaries</p>
+      
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <h4>🔄 State Transitions</h4>
+            <ul class="feature-list" style="margin-top: 8px;">
+              <li><strong>Draft → Pending Approval:</strong> Submitted by <em>Training Officer</em>. Validates participants > 0.</li>
+              <li><strong>Pending Approval → Approved:</strong> Approved by <em>Training Manager</em>. Locks trainer calendar.</li>
+              <li><strong>Pending Approval → Rejected:</strong> Rejected by Manager. Officer can click "Revise" to return to Draft.</li>
+              <li><strong>Approved → Completed:</strong> Executed by Trainer/Manager once End Date is reached.</li>
+              <li><strong>Approved → Cancelled:</strong> Executed by Manager if training is called off.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h4>🛡️ Critical Guardrails</h4>
+            <ul class="feature-list" style="margin-top: 8px;">
+              <li><strong>No Empty Submissions:</strong> A session cannot transition to Pending Approval without at least one participant.</li>
+              <li><strong>Premature Completion Guard:</strong> Complete action is blocked if current date < Session End Date.</li>
+              <li><strong>Calendar Reservation:</strong> States <code>Pending Approval</code> and <code>Approved</code> actively block overlapping bookings.</li>
+            </ul>
+          </div>
+        </div>
+
+        <pre class="code-box" style="margin-top: 10px;">
+[Draft] --(Submit: Officer)--> [Pending Approval] --(Approve: Manager)--> [Approved] --(Complete: Trainer/Mgr)--> [Completed]
+                                       │                                         │
+                                (Reject: Manager)                         (Cancel: Manager)
+                                       ▼                                         ▼
+                                  [Rejected]                                [Cancelled]</pre>
+      </div>
+    </div>
+
+    <!-- Slide 5: Security & RBAC -->
+    <div class="slide" data-notes="Security and access control are critical. We configured 3 dedicated roles: Training Officer, Training Manager, and Trainer. Most importantly, we implemented row-level security using Frappe's permission_query_conditions and has_permission hooks so trainers only see their own assigned sessions.">
+      <div class="slide-tag">Security & Compliance</div>
+      <h2 class="slide-title">Roles, Permissions & Row-Level Security</h2>
+      <p class="slide-subtitle">Strict separation of duties with row-level tenant isolation for trainers</p>
+      
+      <div class="slide-body">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Role</th>
+              <th>Test Account</th>
+              <th>Master Data</th>
+              <th>Session Access</th>
+              <th>Certificate Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Training Officer</strong></td>
+              <td><code>officer@fhc.test</code></td>
+              <td>Create / Edit</td>
+              <td>Create Draft, Submit for Approval</td>
+              <td>Issue Certificates</td>
+            </tr>
+            <tr>
+              <td><strong>Training Manager</strong></td>
+              <td><code>manager@fhc.test</code></td>
+              <td>Full Access</td>
+              <td>Approve, Reject, Cancel, Complete</td>
+              <td>Issue & Revoke (with Reason)</td>
+            </tr>
+            <tr>
+              <td><strong>Trainer</strong></td>
+              <td><code>trainer@fhc.test</code></td>
+              <td>Read Only</td>
+              <td><strong>Only Assigned Sessions</strong>; Record Attendance/Scores</td>
+              <td>Read Only</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="card" style="margin-top: 10px;">
+          <h4>🔒 Row-Level Query Hook Implementation</h4>
+          <pre class="code-box">
+<span class="code-keyword">def</span> <span class="code-func">get_permission_query_conditions</span>(user=<span class="code-keyword">None</span>):
+    user = user <span class="code-keyword">or</span> frappe.session.user
+    <span class="code-keyword">if</span> <span class="code-string">"Trainer"</span> <span class="code-keyword">in</span> frappe.get_roles(user) <span class="code-keyword">and</span> user != <span class="code-string">"Administrator"</span>:
+        trainers = frappe.get_all(<span class="code-string">"Trainer"</span>, filters={<span class="code-string">"user"</span>: user}, pluck=<span class="code-string">"name"</span>)
+        quoted = <span class="code-string">", "</span>.join(frappe.db.escape(t) <span class="code-keyword">for</span> t <span class="code-keyword">in</span> trainers)
+        <span class="code-keyword">return</span> <span class="code-string">f"`tabTraining Session`.`trainer` in ({quoted})"</span> <span class="code-keyword">if</span> quoted <span class="code-keyword">else</span> <span class="code-string">"1=0"</span>
+    <span class="code-keyword">return</span> <span class="code-string">""</span></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 6: Python Logic -->
+    <div class="slide" data-notes="Slide 6 showcases the server-side Python intelligence. In training_session.py, we validate dates, detect overlapping trainer schedules, enforce participant caps, check for duplicate IDs, and compute Pass/Fail dynamically. We also implemented an idempotent issue_certificates method.">
+      <div class="slide-tag">Backend Architecture</div>
+      <h2 class="slide-title">Server-Side Logic & Business Rules (Python)</h2>
+      <p class="slide-subtitle">Robust server-side validation in <code>training_session.py</code> and <code>certification.py</code></p>
+      
+      <div class="slide-body grid-2">
+        <div class="card">
+          <h4>1. Double-Booking Conflict Prevention</h4>
+          <pre class="code-box">
+clash = frappe.get_all(
+    <span class="code-string">"Training Session"</span>,
+    filters=[
+        [<span class="code-string">"trainer"</span>, <span class="code-string">"="</span>, self.trainer],
+        [<span class="code-string">"name"</span>, <span class="code-string">"!="</span>, self.name <span class="code-keyword">or</span> <span class="code-string">""</span>],
+        [<span class="code-string">"workflow_state"</span>, <span class="code-string">"in"</span>, [<span class="code-string">"Pending Approval"</span>, <span class="code-string">"Approved"</span>]],
+        [<span class="code-string">"start_date"</span>, <span class="code-string">"&lt;="</span>, self.end_date],
+        [<span class="code-string">"end_date"</span>, <span class="code-string">"&gt;="</span>, self.start_date],
+    ],
+    pluck=<span class="code-string">"name"</span>, limit=1
+)
+<span class="code-keyword">if</span> clash:
+    frappe.throw(_(<span class="code-string">"Trainer {0} booked in {1}."</span>).format(self.trainer, clash[0]))</pre>
+        </div>
+
+        <div class="card">
+          <h4>2. Automatic Result & Certificate Issuance</h4>
+          <pre class="code-box">
+<span class="code-comment"># In calculate_results():</span>
+<span class="code-keyword">for</span> row <span class="code-keyword">in</span> self.participants:
+    <span class="code-keyword">if</span> self.workflow_state <span class="code-keyword">in</span> RESULT_STATES <span class="code-keyword">and</span> row.attendance == <span class="code-string">"Present"</span>:
+        row.result = <span class="code-string">"Pass"</span> <span class="code-keyword">if</span> flt(row.score) &gt;= flt(self.passing_score) <span class="code-keyword">else</span> <span class="code-string">"Fail"</span>
+
+<span class="code-comment"># In issue_certificates(): Idempotent</span>
+<span class="code-keyword">for</span> row <span class="code-keyword">in</span> session.participants:
+    <span class="code-keyword">if</span> row.result == <span class="code-string">"Pass"</span> <span class="code-keyword">and not</span> row.certificate:
+        cert = frappe.get_doc({...}).insert()
+        row.db_set(<span class="code-string">"certificate"</span>, cert.name)</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 7: JavaScript UX -->
+    <div class="slide" data-notes="Slide 7 presents the client-side user experience. We enhanced the desk forms with custom dropdown queries, real-time participant and pass counters on the dashboard, live recalculations in child tables, and action buttons like 'Issue Certificates' and 'Revoke' with a mandatory prompt dialog.">
+      <div class="slide-tag">Frontend & Desk UX</div>
+      <h2 class="slide-title">Client-Side Behavior & Form Ergonomics (JS)</h2>
+      <p class="slide-subtitle">Interactive form events, query filters, and dashboard indicators</p>
+      
+      <div class="slide-body grid-2">
+        <div class="card">
+          <h4>📊 Dynamic Indicators & Custom Buttons</h4>
+          <ul class="feature-list" style="margin-top: 10px;">
+            <li><strong>Summary Badges:</strong> Form displays real-time badges for <code>Participants: X</code> and <code>Passed: Y</code>.</li>
+            <li><strong>Validity Warning:</strong> Certification shows badge <code>Expires in N days</code> (turns orange at $\le 30$ days).</li>
+            <li><strong>Smart Action Button:</strong> "Issue Certificates" button appears only when session is Completed and uncertified passers exist.</li>
+            <li><strong>Revoke Modal:</strong> Manager clicks "Revoke", prompting for a mandatory text reason before committing.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h4>⚡ Live Calculation on Row Edits</h4>
+          <pre class="code-box">
+frappe.ui.form.on(<span class="code-string">"Training Participant"</span>, {
+    score: recalc_row,
+    attendance: recalc_row
+});
+
+<span class="code-keyword">function</span> <span class="code-func">recalc_row</span>(frm, cdt, cdn) {
+    <span class="code-keyword">const</span> row = locals[cdt][cdn];
+    <span class="code-keyword">let</span> result = <span class="code-string">""</span>;
+    <span class="code-keyword">if</span> (row.attendance === <span class="code-string">"Present"</span>) {
+        result = flt(row.score) &gt;= flt(frm.doc.passing_score) ? <span class="code-string">"Pass"</span> : <span class="code-string">"Fail"</span>;
+    }
+    frappe.model.set_value(cdt, cdn, <span class="code-string">"result"</span>, result);
+    update_summary(frm);
+}</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 8: Reporting & Background Tasks -->
+    <div class="slide" data-notes="Slide 8 highlights our reporting and automation capabilities. We created a Script Report called Certification Expiry that lets management filter by course, status, and expiry horizon. We also implemented a nightly scheduler event that automatically expires overdue certificates.">
+      <div class="slide-tag">Analytics & Automation</div>
+      <h2 class="slide-title">Reporting & Background Automation</h2>
+      <p class="slide-subtitle">Proactive compliance tracking and background maintenance</p>
+      
+      <div class="slide-body grid-2">
+        <div class="card">
+          <h4>📈 Script Report: "Certification Expiry"</h4>
+          <ul class="feature-list" style="margin-top: 8px;">
+            <li><strong>Multi-Dimensional Filters:</strong> Filter by Course, Status (Active, Expired, Revoked), and Expiring Within (e.g. 30, 60, 90 days).</li>
+            <li><strong>Days Remaining Metric:</strong> Calculates exact days left until lapse using <code>date_diff(expiry_date, today())</code>.</li>
+            <li><strong>FHC Value:</strong> Department heads can forecast recertification schedules before compliance violations occur.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h4>⏰ Automated Daily Scheduler</h4>
+          <ul class="feature-list" style="margin-top: 8px;">
+            <li><strong>Registered in <code>hooks.py</code>:</strong> Configured under <code>scheduler_events["daily"]</code>.</li>
+            <li><strong>Task: <code>mark_expired_certifications()</code>:</strong> Batch-updates all active certificates whose expiry date has passed to <code>Expired</code>.</li>
+            <li><strong>Zero Human Overhead:</strong> Ensures the certificate database remains 100% compliant and accurate.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 9: QA & Automated Testing -->
+    <div class="slide" data-notes="Quality assurance was paramount. We engineered 18 automated unit tests covering both positive and negative scenarios, edge cases, workflow locks, and trainer row isolation. All 18 automated tests execute in 6.3 seconds with 100% pass rate, complemented by 25 verified manual test cases.">
+      <div class="slide-tag">Quality Assurance</div>
+      <h2 class="slide-title">Testing Approach & Verification Results</h2>
+      <p class="slide-subtitle">18 Automated Unit Tests + 25 Manual Test Checklist Scenarios</p>
+      
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <h4>🧪 Automated Suite Breakdown (18 Tests)</h4>
+            <ul class="feature-list" style="margin-top: 8px;">
+              <li>End Date before Start Date validation blocks save</li>
+              <li>Past Start Date on new session rejected</li>
+              <li>Capacity limit and duplicate participant checks</li>
+              <li>Inactive course / inactive trainer blocked</li>
+              <li>Trainer double-booking clash detection</li>
+              <li>Idempotent certificate generation and expiry formula</li>
+              <li>Row-level permission filter verified for trainer role</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h4>📊 Test Execution Output</h4>
+            <pre class="code-box">
+$ bench --site fhc.local run-tests --app fhc_training
+..................
+----------------------------------------------------------------------
+Ran 18 tests in 6.361s
+
+<span style="color: #34d399; font-weight: bold;">OK (0 Failures, 0 Errors)</span>
+
+Manual Test Checklist: 25 / 25 Scenarios Passed (100%)</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 10: Reproducibility & Fixtures -->
+    <div class="slide" data-notes="Slide 10 addresses exam requirement 13: reproducibility. Custom roles, workflow states, workflow action masters, and the entire workflow are exported as fixtures inside fhc_training/fixtures. Anyone can clone this app and install it on any Frappe site with a single command, and the entire configuration recreates automatically.">
+      <div class="slide-tag">Reproducibility & DevOps</div>
+      <h2 class="slide-title">Portability & Site Reproducibility</h2>
+      <p class="slide-subtitle">Requirement 13: Full configuration traveling with the Git repository</p>
+      
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <h4>📦 Fixture Declarations in <code>hooks.py</code></h4>
+            <pre class="code-box">
+fixtures = [
+    {<span class="code-string">"dt"</span>: <span class="code-string">"Role"</span>, <span class="code-string">"filters"</span>: [[<span class="code-string">"name"</span>, <span class="code-string">"in"</span>, [<span class="code-string">"Training Manager"</span>, <span class="code-string">"Training Officer"</span>, <span class="code-string">"Trainer"</span>]]]},
+    {<span class="code-string">"dt"</span>: <span class="code-string">"Workflow State"</span>, <span class="code-string">"filters"</span>: [...]},
+    {<span class="code-string">"dt"</span>: <span class="code-string">"Workflow Action Master"</span>, <span class="code-string">"filters"</span>: [...]},
+    {<span class="code-string">"dt"</span>: <span class="code-string">"Workflow"</span>, <span class="code-string">"filters"</span>: [[<span class="code-string">"name"</span>, <span class="code-string">"in"</span>, [<span class="code-string">"Training Session Approval"</span>]]]},
+]</pre>
+          </div>
+
+          <div class="card">
+            <h4>🚀 Effortless 3-Step Site Installation</h4>
+            <pre class="code-box">
+<span class="code-comment"># 1. Fetch app into bench</span>
+bench get-app fhc_training &lt;git-url&gt;
+
+<span class="code-comment"># 2. Install on site (imports all fixtures)</span>
+bench --site fhc.local install-app fhc_training
+
+<span class="code-comment"># 3. Seed demo users & sample records</span>
+bench --site fhc.local execute fhc_training.setup.sample_data.create_sample_data</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 11: Challenges & Solutions -->
+    <div class="slide" data-notes="During development, we solved three distinct engineering hurdles: securing trainer list views against data leakage via query conditions, handling bidirectional date interval clashes, and ensuring certificate generation was strictly idempotent without race conditions.">
+      <div class="slide-tag">Engineering Insights</div>
+      <h2 class="slide-title">Challenges Encountered & Technical Solutions</h2>
+      <p class="slide-subtitle">Overcoming real-world architectural and Frappe development constraints</p>
+      
+      <div class="slide-body grid-3">
+        <div class="card">
+          <h4 style="color: #60a5fa;">1. Trainer List Leakage</h4>
+          <p><strong>Challenge:</strong> Standard DocPerm rules allowed trainers to see other instructors' scheduled sessions in the desk list view.</p>
+          <p style="margin-top: 8px;"><strong>Solution:</strong> Hooked into <code>permission_query_conditions</code> to dynamically inject SQL clauses matching the trainer's linked user.</p>
+        </div>
+
+        <div class="card" style="color: #60a5fa;">
+          <h4>2. Date Interval Clashes</h4>
+          <p><strong>Challenge:</strong> Simple equality matching missed multi-day overlapping sessions starting or ending mid-schedule.</p>
+          <p style="margin-top: 8px;"><strong>Solution:</strong> Implemented mathematical interval intersection (<code>start_date <= other.end AND end_date >= other.start</code>).</p>
+        </div>
+
+        <div class="card" style="color: #60a5fa;">
+          <h4>3. Certificate Idempotency</h4>
+          <p><strong>Challenge:</strong> Repeated clicks on "Issue Certificates" could produce duplicate certificate records.</p>
+          <p style="margin-top: 8px;"><strong>Solution:</strong> Embedded foreign key certificate link directly on the child table row and enforced unique session-participant constraints.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 12: Live Demo & Defense Plan -->
+    <div class="slide" data-notes="Now, we proceed to our 10-minute live demonstration. We will walk through the full lifecycle: logging in as Officer, submitting a session, approving as Manager, logging in as Trainer to record attendance and scores, completing the session, issuing certificates, and viewing the expiry report. Then I will be pleased to execute the live technical change requested by the committee.">
+      <div class="slide-tag">Demonstration Plan</div>
+      <h2 class="slide-title">Live Demonstration Roadmap & Technical Defense</h2>
+      <p class="slide-subtitle">Ready for the 10-minute end-to-end walkthrough and live technical modification</p>
+      
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <h4>🎬 Live Demo Sequence</h4>
+            <ol style="margin-left: 20px; line-height: 1.8; font-size: 14px; color: #cbd5e1;">
+              <li>Log in as <code>officer@fhc.test</code> → Create Session with participants.</li>
+              <li>Attempt invalid submission (past date / empty rows) → verify validation error.</li>
+              <li>Submit for Approval → workflow state changes to <code>Pending Approval</code>.</li>
+              <li>Log in as <code>manager@fhc.test</code> → Approve session.</li>
+              <li>Log in as <code>trainer@fhc.test</code> → Verify row isolation; enter scores.</li>
+              <li>Complete session & click "Issue Certificates" → verify certificates generated.</li>
+              <li>Run "Certification Expiry" Script Report.</li>
+            </ol>
+          </div>
+
+          <div class="card">
+            <h4>🛠️ Prepared for Section 10: Live Technical Change</h4>
+            <p>Ready to perform on-the-spot adjustments requested by the evaluators:</p>
+            <ul class="feature-list" style="margin-top: 10px;">
+              <li>Adding custom fields (e.g. Venue Room, Training Cost)</li>
+              <li>Adjusting validation logic or pass threshold</li>
+              <li>Modifying workflow states or transition actions</li>
+              <li>Adding report filters or custom client-side alerts</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Speaker Notes Collapsible Panel -->
+  <div class="speaker-notes-panel" id="speakerNotesPanel">
+    <div class="speaker-notes-label">Speaker Notes</div>
+    <div id="speakerNotesContent">Notes will appear here...</div>
+  </div>
+
+  <!-- Bottom Navigation & Counter -->
+  <footer>
+    <div class="slide-counter" id="slideCounter">1 / 12</div>
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="nav-buttons">
+      <button class="nav-btn" id="prevBtn" onclick="prevSlide()" disabled>← Previous</button>
+      <button class="nav-btn" id="nextBtn" onclick="nextSlide()">Next →</button>
+    </div>
+  </footer>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const slideCounter = document.getElementById('slideCounter');
+    const progressBar = document.getElementById('progressBar');
+    const notesPanel = document.getElementById('speakerNotesPanel');
+    const notesContent = document.getElementById('speakerNotesContent');
+    const notesToggleBtn = document.getElementById('notesToggleBtn');
+
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+
+    function updateSlide(index) {
+      slides.forEach((s, idx) => {
+        s.classList.toggle('active', idx === index);
+      });
+      currentSlide = index;
+
+      // Update counters & buttons
+      slideCounter.innerText = `${currentSlide + 1} / ${totalSlides}`;
+      progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+      prevBtn.disabled = currentSlide === 0;
+      nextBtn.disabled = currentSlide === totalSlides - 1;
+
+      // Update speaker notes
+      const notes = slides[currentSlide].getAttribute('data-notes') || 'No speaker notes for this slide.';
+      notesContent.innerText = notes;
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        updateSlide(currentSlide + 1);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        updateSlide(currentSlide - 1);
+      }
+    }
+
+    function toggleSpeakerNotes() {
+      notesPanel.classList.toggle('visible');
+      notesToggleBtn.classList.toggle('active');
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        updateSlide(0);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        updateSlide(totalSlides - 1);
+      } else if (e.key === 's' || e.key === 'S') {
+        e.preventDefault();
+        toggleSpeakerNotes();
+      } else if (e.key === 'f' || e.key === 'F') {
+        e.preventDefault();
+        toggleFullScreen();
+      }
+    });
+
+    // Initialize
+    updateSlide(0);
+  </script>
+</body>
+</html>

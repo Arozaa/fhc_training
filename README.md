@@ -10,11 +10,11 @@ certificates are about to expire. This app replaces spreadsheets with a controll
 ## 2. Environment (Verified System Specifications)
 | Item | Version used | Notes |
 |---|---|---|
-| OS | Ubuntu 22.04.5 LTS (WSL2) | Linux kernel 6.6.x on Windows |
-| Python | Python 3.10.12 | Standard Ubuntu 22.04 Frappe runtime |
-| Node.js / Yarn | Node.js v18.20.8 / Yarn 1.22.22 | Installed via NVM |
-| MariaDB | 10.6.23-MariaDB | Configured with utf8mb4 collation |
-| Redis | Redis 6.0.16 | Cache, Queue, and Socket.io brokers |
+| OS | Ubuntu 22.04.5 LTS on WSL2 (Windows host) |
+| Python | 3.10.12 |
+| Node.js / Yarn | v18.20.8 / 1.22.22 |
+| MariaDB | 10.6.23 |
+| Redis | 6.0.16 |
 | Frappe Framework | 15.122.0 (branch `version-15`) | Active production/dev release |
 | ERPNext | 15.122.0 (branch `version-15`) | Core ERP module suite |
 | Frappe Bench | 5.31.0 | CLI bench tool |
@@ -100,3 +100,17 @@ fhc_training/
     doctype/ (course, trainer, training_participant, training_session, certification)
     report/certification_expiry/
 ```
+
+## 11. Setup challenges encountered and how they were solved
+| Problem | Cause | Solution |
+|---|---|---|
+| `bench` not recognised in Windows PowerShell | Bench only runs on Linux | Installed WSL2 with Ubuntu 22.04 and worked inside it |
+| `new-site` failed: MariaDB error 1698 "Access denied for user 'root'" | MariaDB root used socket authentication instead of a password | Set a root password with `ALTER USER 'root'@'localhost' IDENTIFIED BY ...` |
+| "Site already exists" after a failed `new-site` | Half-created site left behind | `bench drop-site` then `bench new-site` again |
+| `install-app erpnext` failed: Redis connection refused on port 11000 | The bench Redis instances were not running | Ran `bench start` first, then installed ERPNext from a second terminal |
+| Browser showed 404 on localhost:8000 | Bench had no default site after the site was recreated | `bench use fhc.local` and `bench set-config -g default_site fhc.local`, then restarted bench |
+| Demo-user creation rejected the password | Frappe's password-strength policy | Used a stronger password supplied on the command line |
+| A second WSL window could not find the bench | Two Ubuntu distributions installed, with separate users | Opened the correct distro with `wsl -d Ubuntu-22.04 -u <user>` |
+| Trainer could not see sessions | The Trainer record had no linked System User | Set the `user` field on the Trainer record |
+
+Note: `bench start` must be running while installing apps, because installation uses the Redis queue.

@@ -1,6 +1,7 @@
 {
  "actions": [],
- "creation": "2026-10-09 10:00:00.000000",
+ "autoname": "naming_series:",
+ "creation": "2026-10-09 10:00:00",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -9,6 +10,7 @@
   "course_name",
   "trainer",
   "passing_score",
+  "room_details",
   "column_break_1",
   "start_date",
   "end_date",
@@ -19,6 +21,7 @@
   "participants",
   "section_summary",
   "total_participants",
+  "phone_oogz",
   "column_break_2",
   "passed_count",
   "section_notes",
@@ -26,47 +29,47 @@
  ],
  "fields": [
   {
+   "default": "TS-.YYYY.-.####",
    "fieldname": "naming_series",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Series",
    "options": "TS-.YYYY.-.####",
-   "default": "TS-.YYYY.-.####",
    "reqd": 1,
-   "hidden": 1,
    "set_only_once": 1
   },
   {
    "fieldname": "course",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Course",
    "options": "Training Course",
-   "reqd": 1,
-   "in_list_view": 1,
-   "in_standard_filter": 1
+   "reqd": 1
   },
   {
+   "fetch_from": "course.course_name",
    "fieldname": "course_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Course Name",
-   "read_only": 1,
-   "fetch_from": "course.course_name",
-   "in_list_view": 1
+   "read_only": 1
   },
   {
    "fieldname": "trainer",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Trainer",
    "options": "Trainer",
-   "reqd": 1,
-   "in_list_view": 1,
-   "in_standard_filter": 1
+   "reqd": 1
   },
   {
+   "fetch_from": "course.passing_score",
    "fieldname": "passing_score",
    "fieldtype": "Percent",
    "label": "Passing Score (%)",
-   "read_only": 1,
-   "fetch_from": "course.passing_score"
+   "read_only": 1
   },
   {
    "fieldname": "column_break_1",
@@ -75,10 +78,10 @@
   {
    "fieldname": "start_date",
    "fieldtype": "Date",
-   "label": "Start Date",
-   "reqd": 1,
    "in_list_view": 1,
-   "in_standard_filter": 1
+   "in_standard_filter": 1,
+   "label": "Start Date",
+   "reqd": 1
   },
   {
    "fieldname": "end_date",
@@ -92,21 +95,21 @@
    "label": "Venue"
   },
   {
+   "default": "20",
    "fieldname": "max_participants",
    "fieldtype": "Int",
    "label": "Max Participants",
-   "reqd": 1,
-   "default": "20"
+   "reqd": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "workflow_state",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Status",
-   "options": "Workflow State",
-   "read_only": 1,
    "no_copy": 1,
-   "allow_on_submit": 1,
-   "in_standard_filter": 1
+   "options": "Workflow State",
+   "read_only": 1
   },
   {
    "fieldname": "section_participants",
@@ -128,8 +131,8 @@
    "fieldname": "total_participants",
    "fieldtype": "Int",
    "label": "Total Participants",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "fieldname": "column_break_2",
@@ -139,79 +142,88 @@
    "fieldname": "passed_count",
    "fieldtype": "Int",
    "label": "Passed",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
+   "collapsible": 1,
    "fieldname": "section_notes",
    "fieldtype": "Section Break",
-   "label": "Notes",
-   "collapsible": 1
+   "label": "Notes"
   },
   {
    "fieldname": "notes",
    "fieldtype": "Small Text",
    "label": "Notes"
+  },
+  {
+   "fieldname": "room_details",
+   "fieldtype": "Data",
+   "label": "Room Details"
+  },
+  {
+   "fieldname": "phone_oogz",
+   "fieldtype": "Phone"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-10-09 10:00:00.000000",
+ "modified": "2026-10-12 01:21:59.056825",
  "modified_by": "Administrator",
  "module": "FHC Training",
  "name": "Training Session",
  "owner": "Administrator",
  "permissions": [
   {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
    "role": "System Manager",
-   "read": 1,
-   "report": 1,
-   "export": 1,
-   "print": 1,
-   "email": 1,
    "share": 1,
-   "write": 1,
-   "create": 1,
-   "delete": 1
+   "write": 1
   },
   {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
    "role": "Training Manager",
-   "read": 1,
-   "report": 1,
-   "export": 1,
-   "print": 1,
-   "email": 1,
    "share": 1,
-   "write": 1,
+   "write": 1
+  },
+  {
    "create": 1,
-   "delete": 1
-  },
-  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
    "role": "Training Officer",
-   "read": 1,
-   "report": 1,
-   "export": 1,
-   "print": 1,
-   "email": 1,
    "share": 1,
-   "write": 1,
-   "create": 1
+   "write": 1
   },
   {
-   "role": "Trainer",
-   "read": 1,
-   "report": 1,
+   "email": 1,
    "export": 1,
    "print": 1,
-   "email": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Trainer",
    "share": 1,
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
+ "search_fields": "course_name,trainer,venue",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
- "track_changes": 1,
- "autoname": "naming_series:",
- "search_fields": "course_name,trainer,venue"
+ "track_changes": 1
 }

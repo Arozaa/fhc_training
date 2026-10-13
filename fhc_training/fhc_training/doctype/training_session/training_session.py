@@ -5,6 +5,7 @@ from frappe.utils import add_months, flt, getdate, today
 
 BLOCKING_STATES = ("Pending Approval", "Approved")  # states that "reserve" a trainer
 RESULT_STATES = ("Approved", "Completed")           # states where scores become Pass/Fail
+MAX_SESSION_CAPACITY = 30  # corporate limit on participants per session
 STAFF_ROLES = {"System Manager", "Training Manager", "Training Officer"}
 
 
@@ -56,6 +57,10 @@ class TrainingSession(Document):
     def validate_participants(self):
         if (self.max_participants or 0) <= 0:
             frappe.throw(_("Max Participants must be greater than zero."))
+        if self.max_participants > MAX_SESSION_CAPACITY:
+            frappe.throw(
+                _("Max Participants cannot exceed {0} per session.").format(MAX_SESSION_CAPACITY)
+            )    
         if len(self.participants) > self.max_participants:
             frappe.throw(
                 _("Participants ({0}) exceed the maximum allowed ({1}).").format(

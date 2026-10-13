@@ -104,6 +104,10 @@ class TestTrainingSession(FrappeTestCase):
         with self.assertRaises(frappe.ValidationError):
             make_session(self.course, self.trainer, participants=rows, max_participants=2)
 
+    def test_capacity_above_policy_limit_fails(self):
+        with self.assertRaises(frappe.ValidationError):
+            make_session(self.course, self.trainer, max_participants=31)    
+            
     def test_duplicate_participant_fails(self):
         rows = [
             {"participant_id": "E001", "participant_name": "A"},
